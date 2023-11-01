@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我到底通关了没</title>
+  <style>
+    body {
+      font-family: 'Microsoft yahei';
+      margin: 20px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 85%;
+      margin: auto;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #f0f0f0;
+      /* border-left: 1px solid #ddd; */
+      /* border-right: 1px solid #ddd; */
+    }
+
+    th {
+      background-color: #FAFAFA;
+      /* border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd; */
+      /* line-height: 16px; */
+    }
+
+    .pass {
+      color: green;
+      font-weight: bold;
+    }
+
+    .failed {
+      color: rgb(160, 3, 3);
+    }
+
+    .rank {
+      font-weight: bold;
+      color: black;
+    }
+  </style>
+</head>
+
+<body>
+  <h1 align="center">排行榜</h1>
+  <table id="rankTable">
+    <tr>
+      <th>排名</th>
+      <th>姓名</th>
+      <th>学号</th>
+      <th>总得分</th>
+      <th>第一题</th>
+      <th>第二题</th>
+      <th>第三题</th>
+      <th>第四题</th>
+    </tr>
+    <tbody></tbody>
+  </table>
+  <script>
+
+    fetch('http://172.25.213.1:3000/api/data')
+      .then(response => response.json())
+      .then(data => {
+        const tableData = document.createElement('tbody')
+        for (let i = 0; i < data.length; i++) {
+          const row = document.createElement('tr')
+          row.classList.add('flag')
+          const rank = document.createElement('td')
+          rank.classList.add('rank')
+          row.appendChild(rank)
+
+          row.innerHTML += `<td>${data[i].name}</td>
+                        <td>${data[i].id}</td>
+                        <td class='rank'>${data[i].sum_score}</td>
+                        <td>${data[i].score1}</td>
+                        <td>${data[i].score2}</td>
+                        <td>${data[i].score3}</td>
+                        <td>${data[i].score4}</td>`
+          tableData.appendChild(row)
+        }
+        const arrayTable = Array.from(tableData.querySelectorAll('tr'))
+        const sortedRow = arrayTable.sort(function (a, b) {
+          const sum_score1 = a.querySelector('td:nth-child(4)')
+          const sum_score2 = b.querySelector('td:nth-child(4)')
+          return sum_score2.innerText - sum_score1.innerText
+        })
+        const tbody = document.getElementById('rankTable')
+        // const tbody = document.getElementsByName('table')
+        for (let i = 0; i < sortedRow.length; i++) {
+          const rank = sortedRow[i].querySelector('td:first-child')
+          rank.innerText = i + 1;
+          tbody.appendChild(sortedRow[i])
+        }
+        changeColor()//分数改色
+      })
+      .catch(error => {
+        // 处理请求错误
+        console.error(error);
+      });
+    function changeColor() {
+      const td = document.querySelectorAll('td')
+      for (let i = 0; i < td.length; i++) {
+        if (td[i].innerText === '0') td[i].classList.add('failed')
+        if (td[i].innerText === '10') td[i].classList.add('pass')
+      }
+    }
+  </script>
+</body>
+
+</html>
