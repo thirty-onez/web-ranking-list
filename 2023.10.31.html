@@ -27,9 +27,7 @@
       background-color: #f2f2f2;
     }
 
-    .rank {
-      font-weight: bold;
-    }
+
 
     .pass {
       color: green;
@@ -37,6 +35,11 @@
 
     .failed {
       color: red;
+    }
+
+    .rank {
+      font-weight: bold;
+      color: black;
     }
 
     .flag {
@@ -51,65 +54,80 @@
 </head>
 
 <body>
-  <h1 align="center">排行榜</h1>
+  <h1 align="center">排行榜 <button class="new"> 刷新</button></h1>
   <table id="rankTable">
-    <tr>
-      <th>排名</th>
-      <th>姓名</th>
-      <th>学号</th>
-      <th>第一题</th>
-      <th>第二题</th>
-      <th>第三题</th>
-      <th>第四题</th>
-      <th>总得分</th>
-    </tr>
+    <thead>
+      <tr>
+        <th>排名</th>
+        <th>姓名</th>
+        <th>学号</th>
+        <th>第一题</th>
+        <th>第二题</th>
+        <th>第三题</th>
+        <th>第四题</th>
+        <th>总得分</th>
+      </tr>
+    </thead>
     <tbody></tbody>
   </table>
 
   <script>
-    // 使用fetch从API获取数据
-    fetch('https://puzzle.qieee.top/api/rank')
-      .then(response => response.json())
-      .then(data => {
-        const rankTable = document.createElement('tbody');
-        for (let i = 0; i < data.length; i++) {
-          const row = document.createElement('tr');
-          row.classList.add('flag')
-          const rankCell = document.createElement('td');
-          row.appendChild(rankCell);
+    getdata()
+    const button = document.querySelector('button')
+    button.addEventListener('click', getdata)
 
-          row.innerHTML += `<td>${data[i].name}</td><td>${data[i].id}</td>`
-          const sum_score = document.createElement('td');
-          sum_score.classList.add('sumScore')
-          sum_score.innerText = data[i].score[0].score + data[i].score[1].score + data[i].score[2].score + data[i].score[3].score
-          row.appendChild(sum_score)
-          row.innerHTML += `<td>${data[i].score[0].score}</td>
+    function getdata() {
+      // 使用fetch从API获取数据
+      // console.log(1)
+      const father = document.querySelector('table')
+      const length = father.children.length
+      for (let i = 1; i < length; i++) {
+        father.removeChild(father.children[1])
+      }
+
+      fetch('https://puzzle.qieee.top/api/rank')
+        .then(response => response.json())
+        .then(data => {
+          const rankTable = document.createElement('tbody');
+          for (let i = 0; i < data.length; i++) {
+            const row = document.createElement('tr');
+            row.classList.add('flag')
+            const rankCell = document.createElement('td');
+            rankCell.classList.add('rank')
+            row.appendChild(rankCell);
+
+            row.innerHTML += `<td>${data[i].name}</td><td>${data[i].id}</td>`
+            const sum_score = document.createElement('td');
+            sum_score.classList.add('sumScore')
+            sum_score.innerText = data[i].score[0].score + data[i].score[1].score + data[i].score[2].score + data[i].score[3].score
+            row.appendChild(sum_score)
+            row.innerHTML += `<td>${data[i].score[0].score}</td>
                             <td>${data[i].score[1].score}</td>
                             <td>${data[i].score[2].score}</td>
                             <td>${data[i].score[3].score}</td> `
 
 
-          rankTable.appendChild(row);
-        }
-        //针对总分进行排序
-        const tr = Array.from(rankTable.querySelectorAll('tr'))
-        const sortedRow = tr.sort(function (a, b) {
-          const sum_score1 = a.querySelector('td:nth-child(4)')
-          const sum_score2 = b.querySelector('td:nth-child(4)')
-          return sum_score2.innerText - sum_score1.innerText
+            rankTable.appendChild(row);
+          }
+          //针对总分进行排序
+          const tr = Array.from(rankTable.querySelectorAll('tr'))
+          const sortedRow = tr.sort(function (a, b) {
+            const sum_score1 = a.querySelector('td:nth-child(4)')
+            const sum_score2 = b.querySelector('td:nth-child(4)')
+            return sum_score2.innerText - sum_score1.innerText
+          })
+
+          //加上排名并且把完整的数据插入到当前网页
+          const tbody = document.getElementById('rankTable');
+          for (let i = 0; i < sortedRow.length; i++) {
+            const rank = sortedRow[i].querySelector('td:first-child')
+            rank.innerText = i + 1;
+            tbody.appendChild(sortedRow[i])
+          }
+          changeColor()//分数改色
         })
-
-        //加上排名并且把完整的数据插入到当前网页
-        const tbody = document.getElementById('rankTable');
-        for (let i = 0; i < sortedRow.length; i++) {
-          const rank = sortedRow[i].querySelector('td:first-child')
-          rank.innerText = i + 1;
-          tbody.appendChild(sortedRow[i])
-        }
-        changeColor()//分数改色
-      })
-      .catch(error => console.log(error));
-
+        .catch(error => console.log(error));
+    }
     function changeColor() {
       const td = document.querySelectorAll('td')
       for (let i = 0; i < td.length; i++) {
