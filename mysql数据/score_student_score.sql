@@ -1,0 +1,56 @@
+-- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: score
+-- ------------------------------------------------------
+-- Server version	8.0.32
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `student_score`
+--
+
+DROP TABLE IF EXISTS `student_score`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `student_score` (
+  `name` varchar(30) DEFAULT NULL,
+  `id` char(12) NOT NULL,
+  `score1` int DEFAULT NULL,
+  `score2` int DEFAULT NULL,
+  `score3` int DEFAULT NULL,
+  `score4` int DEFAULT NULL,
+  `sum_score` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `student_score`
+--
+
+LOCK TABLES `student_score` WRITE;
+/*!40000 ALTER TABLE `student_score` DISABLE KEYS */;
+INSERT INTO `student_score` VALUES ('姚佳亦','202300130062',0,0,0,0,0),('杨飞鸿','202300140431',0,10,10,0,20),('洪驰','202300185011',10,10,0,10,30),('刘景新','202300190239',0,0,0,0,0),('程子轩','202300334506',0,10,0,10,20),('邹新','202300582665',10,10,0,10,30),('杨阳','202301610034',0,10,10,0,20),('陈亚铉','202306386711',0,10,0,10,20),('于敏','202307118811',10,0,0,10,20),('陈金品','202312258093',10,0,0,0,10),('郝瑾瑜','202321534612',10,10,0,0,20),('曾叶佳','202322633425',10,10,10,10,40),('江熠彤','202339172305',0,0,0,10,10),('范浩轩','202352892240',10,10,10,10,40),('刘晓啸','202353875540',10,10,10,0,30),('李烨霖','202368129435',0,10,0,10,20),('汪子默','202379207823',10,10,10,10,40),('张伟宸','202384634611',10,0,0,0,10),('潘晋鹏','202392329043',10,10,10,10,40);
+/*!40000 ALTER TABLE `student_score` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2023-11-05 10:13:17
